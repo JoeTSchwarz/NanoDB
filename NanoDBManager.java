@@ -76,7 +76,7 @@ public class NanoDBManager {
     return new byte[] { (byte)0x00 };
   }
   /**
-  close - upper layer of NanoDB's superuser's close() -i.e. userID is Asterisk.
+  disconnect
   <br>In case of error, the return byte array contains the error message.
   @param userID String
   @return byte array where the first byte element signifies the success (0) or failed (1), then a data in bytes
@@ -115,7 +115,6 @@ public class NanoDBManager {
       bao.close();
       return bao.toByteArray();
     } catch (Exception ex) {
-ex.printStackTrace();
       return (""+(char)0x01+ex.toString()).getBytes();
     }
   }
