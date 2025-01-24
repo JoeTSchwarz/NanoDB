@@ -38,12 +38,12 @@ public class NanoDB {
     cs = Charset.forName(charsetName);
   }
   /**
-  setCacheLimit (min. 2 MB)
+  setCacheLimit (min. 1 MB)
   @param lim int, max. cache limit for NanoDB
   */
   public void setCacheLimit(int lim) {
     this.lim = lim;
-    if (lim < 0x200000) lim = 0x200000;
+    if (lim < 0x100000) lim = 0x100000;
     else if (lim > 0x40000000) lim = 0x40000000;
   }
   /**

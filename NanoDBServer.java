@@ -32,7 +32,7 @@ public class NanoDBServer extends JFrame {
     JTextField jpath = new JTextField(System.getProperty("user.dir"));
     JTextField jhost = new JTextField("localhost");
     JTextField jport = new JTextField("9999");
-    JTextField jLim  = new JTextField("2");
+    JTextField jLim  = new JTextField("1");
     jLim.setPreferredSize(new Dimension(50, 25));
     JLabel lab = new JLabel("is NOT running");
     jport.addKeyListener(new KeyAdapter() {
@@ -48,9 +48,9 @@ public class NanoDBServer extends JFrame {
         try {
           int lim = Integer.parseInt(jLim.getText());
           if (lim > 1024) jLim.setText("1024");
-          else if (lim < 2) e.consume();
+          else if (lim < 1) e.consume();
         } catch (Exception ex) {
-          jLim.setText("2");
+          jLim.setText("1");
         }
       }
     });
@@ -85,8 +85,7 @@ public class NanoDBServer extends JFrame {
           //
           go = true;
           lab.setText("is running...");
-          nanoMgr = new NanoDBManager(jpath.getText().trim());
-          nanoMgr.limit = 0x100000 * Integer.parseInt(jLim.getText());
+          nanoMgr = new NanoDBManager(jpath.getText().trim(), 0x100000 * Integer.parseInt(jLim.getText()));
           while (running) pool.execute(new NanoDBWorker(dbSvr.accept(), nanoMgr));
         } catch (Exception e) { }
         if (go) try {
@@ -109,7 +108,7 @@ public class NanoDBServer extends JFrame {
     JPanel p0 = new JPanel(), p1 = new JPanel();
     jpSouth.add(p0); jpSouth.add(p1);
     //
-    p0.add(new JLabel("NanoDB Cache")); p0.add(jLim); p0.add(new JLabel("Min.2 MB - Max.1024 MB)"));
+    p0.add(new JLabel("NanoDB Cache")); p0.add(jLim); p0.add(new JLabel("Min.1 MB - Max.1024 MB)"));
     p1.add(new JLabel("NanoDB Path")); p1.add(jpath); p1.add(start);
     //
     SysMonSWING sysmon = new SysMonSWING(600, 500);

@@ -9,15 +9,19 @@ NanoDBManager manages and synchronizes all NanoDBWorkers from accessing the unde
 @author Joe T. Schwarz (c)
 */
 public class NanoDBManager {
-  public volatile boolean closed = false; // for NanoDBWorker
-  public int limit = 0x200000; // min. 2MB NanoDB Cache
+  // for NanoDBWorker loop
+  public volatile boolean closed = false;
   /**
   contructor.
-  @param soc   SocketChannel
   @param path  String, directory path of NanoDB files
+  @param limit int, limit NanoDB cache size (min. 1 MB, max. 1 GB)
   */
-  public NanoDBManager(String path) {
+  public NanoDBManager(String path, int limit) {
     this.path = path+File.separator;
+    if (limit < 0x100000) cacheLimit = 0x100000;
+    else if (limit > 0x40000000) cacheLimit = 0x40000000;
+    else cacheLimit = limit;
+    
   }
   /**
   open - upper layer of NanoDB's open()
@@ -34,7 +38,7 @@ public class NanoDBManager {
         NanoDB nano = nanoMap.get(dbName); // already opened?
         if (nano == null) { // new NanoDB
           nano = new NanoDB(path+dbName, charsetName);
-          nano.setCacheLimit(limit);
+          nano.setCacheLimit(cacheLimit);
           nanoMap.put(dbName, nano);
           list.add(nano);
           nano.open();
@@ -307,6 +311,7 @@ ex.printStackTrace();
   }
   //
   private String path;
+  private int cacheLimit;
   private ByteArrayOutputStream bao = new ByteArrayOutputStream(65536);
   private ConcurrentHashMap<String, NanoDB> nanoMap = new ConcurrentHashMap<>();
   private List<String> usersList = Collections.synchronizedList(new ArrayList<>());
