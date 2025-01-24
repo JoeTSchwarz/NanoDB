@@ -16,7 +16,7 @@ SWING NanoDBServer (with SysMonSWING) is an example that shows you how to create
 
 How to run the examples:
 - Start NanoDBServer and set the required parameters (hostname/IP, port, path for NanoDB files, max. cache limit).
-- With NanoDB "People": First run "CreatePeopleNanoDB" to create a NanpDB file (as a database). This small app reads the text file "people.txt" and generates from it the corresponding Java serialized objects for the NanoDB database.
+- With NanoDB "People": First, run "CreatePeopleNanoDB" to create a NanpDB file (as a database). This small app reads the text file "people.txt" and generates from it the corresponding Java serialized objects for the NanoDB database.
 - You can create a new NanoDB by skipping the input with any name instead of "People" and then either run setAutoCommit before populating the database with addObject OR go the traditional way: addObject-commit-unlock, addObject-commit-unlock, ... and finally close it.
 
 Joe
