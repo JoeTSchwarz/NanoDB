@@ -18,8 +18,8 @@ public class NanoDBManager {
   */
   public NanoDBManager(String path, int limit) {
     this.path = path+File.separator;
-    if (limit < 0x100000) cacheLimit = 0x100000;
-    else if (limit > 0x40000000) cacheLimit = 0x40000000;
+    if (limit < 0x100000) cacheLimit = 0x100000; // min. 1MB
+    else if (limit > 0x40000000) cacheLimit = 0x40000000; // max. 1 GB
     else cacheLimit = limit;
     
   }
