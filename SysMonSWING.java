@@ -43,7 +43,7 @@ public class SysMonSWING extends JPanel implements Runnable {
       vir0 = osMaxBean.getCommittedVirtualMemorySize();
       msg  = "150 mSec. Period, "+osMaxBean.getAvailableProcessors()+
              " cores, Total Mem. "+(osMaxBean.getTotalPhysicalMemorySize()/1048576)+
-             " GB, Horizontal Scale 2, Mem. Unit 1024 B";
+             " MB, Horizontal Scale 2, Mem. Unit 1024 B";
       
       while (true) {
         x0 += 2; // scaling step 
