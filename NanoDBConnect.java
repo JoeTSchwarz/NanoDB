@@ -23,7 +23,7 @@ public class NanoDBConnect {
     soc = SocketChannel.open(new InetSocketAddress(host, port));
     soc.socket().setReceiveBufferSize(65536); // 32KB
     soc.socket().setSendBufferSize(65536);
-    dbList.add("*");
+    dbLst.add("*");
     // start Shutdown listener
     Runtime.getRuntime().addShutdownHook(new Thread() {
       public void run() {
