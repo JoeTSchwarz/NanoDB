@@ -23,7 +23,6 @@ public class NanoDBConnect {
     soc = SocketChannel.open(new InetSocketAddress(host, port));
     soc.socket().setReceiveBufferSize(65536); // 32KB
     soc.socket().setSendBufferSize(65536);
-    dbLst.add("*");
     // start Shutdown listener
     Runtime.getRuntime().addShutdownHook(new Thread() {
       public void run() {
@@ -243,7 +242,8 @@ public class NanoDBConnect {
   @exception Exception thrown by java
   */
   public void disconnect() throws Exception {
-    send("*", 18);
+    // cmd: 18, length = 1, data = 0
+    soc.write(ByteBuffer.wrap(new byte[] {(byte)18, (byte)0, (byte)1, (byte)0 }));
     soc.close();
     bao.close();
     soc = null;
