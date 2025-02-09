@@ -185,6 +185,7 @@ public class NanoDB {
   */
   public void deleteObject(String userID, String key) throws Exception {
     if (!keysList.contains(key)) throw new Exception(key+" is not existed.");
+    if (oCache.containsKey(key)) throw new Exception("Object of "+key+" was modified but uncommitted.");
     List<String> kList = keysLocked.get(userID);
     if (kList == null || !kList.contains(key)) {
       if (lockedList.contains(key)) throw new Exception(key+" is locked by other.");
@@ -225,6 +226,7 @@ public class NanoDB {
   */
   public void updateObject(String userID, String key, byte[] buf) throws Exception {
     if (!keysList.contains(key)) throw new Exception(key+" is not existed.");
+    if (oCache.containsKey(key)) throw new Exception("Object of "+key+" was modified but uncommitted.");
     List<String> kList = keysLocked.get(userID);
     if (kList == null || !kList.contains(key)) {
       if (lockedList.contains(key)) throw new Exception(key+" is locked by other.");
@@ -386,8 +388,8 @@ public class NanoDB {
           // data in cache: so delete
           if (cached) (new File(fName)).delete();
         }
-        RandomAccessFile rTmp = new RandomAccessFile(new File(tmp), "rw");
         ByteArrayOutputStream bao = new ByteArrayOutputStream(65536);
+        RandomAccessFile rTmp = new RandomAccessFile(tmp, "rw");
         FileLock fL = rTmp.getChannel().lock();
         // the key block
         for (String key : keysList) {
